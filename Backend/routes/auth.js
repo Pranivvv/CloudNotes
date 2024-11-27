@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken');
 
 const jwtSecretKey = '56593e3a139c4e5f8b5c1a1e474239e6'
 
-//EndPoint to create user Using : POST /api/auth/createuser 
+//EndPoint for creating user Using : POST "/api/auth/createuser" no login required
 router.post('/createuser', [
     //validations of user data
     body('name', 'Enter a valid name').trim().isLength({ min: 3 }).escape(),
@@ -56,8 +56,43 @@ router.post('/createuser', [
         }
         catch (err) {
             console.log(err)
-            return res.status(500).json({ Error: 'err' })
+            return res.status(500).json({ Error: 'Internal server error' })
         }
     })
+
+//EndPoint for user login Using : POST "/api/auth/login" no login required
+router.post('/login',[
+    body('username', 'Enter valid Username').trim().isLength({ min: 5 }).escape(),
+    body('password', 'Enter valid Password').trim().isLength({ min: 8 }).escape()
+],  async ( req, res) =>{
+    // validate username and password if they are to short
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+    const { username, password } = req.body
+    try {
+        let user = await Users.findOne({ username })
+        if(!user){
+            return res.status(400).json({ error: 'Enter valid credentials'})
+        }
+        const comparePassword = await bcrypt.compare(password, user.password)
+        if(!comparePassword){
+            return res.status(400).json({error: 'Enter valid credentials'})
+        }
+        const data = {
+            user:{
+                id : user.id
+            }
+        }
+        console.log(data)
+        var token = jwt.sign(data, jwtSecretKey);
+        res.json({token})
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({ Error: 'Internal server error' })
+    }
+})
 
 module.exports = router
