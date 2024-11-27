@@ -51,11 +51,11 @@ router.post('/createuser', [
                     id : user.id
                 }
             }
-            console.log(data)
+            // console.log(data)
             var token = jwt.sign(data, jwtSecretKey);
             res.json({token})
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             return res.status(500).json({ Error: 'Internal server error' })
         }
     })
@@ -85,12 +85,12 @@ router.post('/login',[
                 id : user.id
             }
         }
-        console.log(data)
+        // console.log(data)
         var token = jwt.sign(data, jwtSecretKey);
         res.json({token})
 
     } catch (err) {
-        console.log(err)
+        // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
 })
@@ -103,7 +103,7 @@ router.post('/getuser', fetchUser,
             let user = await Users.findById(userId).select('-password')
             res.json(user)
         } catch (err) {
-            console.log(err)
+            // console.log(err)
             return res.status(500).json({ Error: 'Internal server error' })
         }
 })

@@ -10,11 +10,11 @@ router.get('/fetchnotes', fetchUser, async (req, res) => {
     try {
         // fetching user notes from db using userId
         let notes = await Notes.find({ user: req.user.id })
-        console.log(notes)
+        // console.log(notes)
         res.json(notes)
     } catch (err) {
         // any un known ewrror will be thrown
-        console.log(err)
+        // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
     let notes = await Notes.find({ user: req.user.id })
@@ -42,7 +42,7 @@ router.post('/addnotes', fetchUser, [
         
     } catch (err) {
         // catch any unkonwn errors
-        console.log(err)
+        // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
 }) 
@@ -72,7 +72,7 @@ router.put('/updatenote/:id', fetchUser, async (req, res) => {
 
     } catch (err) {
         // any un known ewrror will be thrown
-        console.log(err)
+        // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
     let notes = await Notes.find({ user: req.user.id })
@@ -94,7 +94,7 @@ router.delete('/deletenote/:id', fetchUser, async (req, res) => {
 
     } catch (err) {
         // any un known ewrror will be thrown
-        console.log(err)
+        // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
     let notes = await Notes.find({ user: req.user.id })
