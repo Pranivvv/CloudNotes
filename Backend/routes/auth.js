@@ -12,7 +12,7 @@ const jwtSecretKey = '56593e3a139c4e5f8b5c1a1e474239e6'
 router.post('/createuser', [
     //validations of user data
     body('name', 'Enter a valid name').trim().isLength({ min: 3 }).escape(),
-    body('name', 'Enter a valid username').trim().isLength({ min: 5 }).escape(),
+    body('username', 'Enter a valid username').trim().isLength({ min: 5 }).escape(),
     body('email', 'Enter a valid Email').isEmail().escape(),
     body('password', 'Password should be atleast 8 characters').isLength({ min: 8 }).escape(),
 ],  async (req, res) => {
@@ -54,8 +54,7 @@ router.post('/createuser', [
             console.log(data)
             var token = jwt.sign(data, jwtSecretKey);
             res.json({token})
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err)
             return res.status(500).json({ Error: 'Internal server error' })
         }
