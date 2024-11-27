@@ -47,7 +47,7 @@ router.post('/addnotes', fetchUser, [
     }
 }) 
 
-//EndPoint3: Update perticular note using note id Using : put "/api/notes/getnotes" login required
+//EndPoint3: Update perticular note using note id Using : PUT "/api/notes/updatenote" login required
 router.put('/updatenote/:id', fetchUser, async (req, res) => {
     try {
         // fetching user note from body using 
@@ -69,6 +69,28 @@ router.put('/updatenote/:id', fetchUser, async (req, res) => {
 
         note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new:true})
         res.json(note)
+
+    } catch (err) {
+        // any un known ewrror will be thrown
+        console.log(err)
+        return res.status(500).json({ Error: 'Internal server error' })
+    }
+    let notes = await Notes.find({ user: req.user.id })
+})
+
+//EndPoint4: Deletete perticular note using note id Using : DELETE "/api/notes/deletenote" login required
+router.delete('/deletenote/:id', fetchUser, async (req, res) => {
+    try {
+        let note = await Notes.findById(req.params.id)
+        if(!note){
+            return res.status(404).send('Note Not Found')
+        }
+        if(note.user.toString()!==req.user.id){
+            return res.status(401).send('Permissions Denied')
+        }
+
+        note = await Notes.findByIdAndDelete(req.params.id)
+        res.json({sucess:'Deleted Note Successfully'})
 
     } catch (err) {
         // any un known ewrror will be thrown
