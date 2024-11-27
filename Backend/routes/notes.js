@@ -5,7 +5,7 @@ const fetchUser = require('../middleware/fetchuser');
 const { find } = require('../models/User');
 const router = express.Router();
 
-//EndPoint1: Fetching all notes of user Using : get "/api/auth/getnotes" login required
+//EndPoint1: Fetching all notes of user Using : get "/api/notes/getnotes" login required
 router.get('/fetchnotes', fetchUser, async (req, res) => {
     try {
         // fetching user notes from db using userId
@@ -20,7 +20,7 @@ router.get('/fetchnotes', fetchUser, async (req, res) => {
     let notes = await Notes.find({ user: req.user.id })
 })
 
-//EndPoint2: Add notes of user Using : post "/api/auth/addnotes" login required
+//EndPoint2: Add notes of user Using : post "/api/notes/addnotes" login required
 router.post('/addnotes', fetchUser, [
     body('title', 'enter title with more than 3 character').trim().isLength({ min: 3 }).escape(),
     body('description', 'enter description with more than 8 character').trim().isLength({ min: 8 }).escape()
@@ -46,5 +46,36 @@ router.post('/addnotes', fetchUser, [
         return res.status(500).json({ Error: 'Internal server error' })
     }
 }) 
+
+//EndPoint3: Update perticular note using note id Using : put "/api/notes/getnotes" login required
+router.put('/updatenote/:id', fetchUser, async (req, res) => {
+    try {
+        // fetching user note from body using 
+        let { title, description, tag } = req.body
+
+        // adding updated feild with new info
+        const newNote = {}
+        if(title){ newNote.title= title }
+        if(description){ newNote.description= description }
+        if(tag){ newNote.tag= tag }
+
+        let note = await Notes.findById(req.params.id)
+        if(!note){
+            return res.status(404).send('Note Not Found')
+        }
+        if(note.user.toString()!==req.user.id){
+            return res.status(401).send('Permissions Denied')
+        }
+
+        note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new:true})
+        res.json(note)
+
+    } catch (err) {
+        // any un known ewrror will be thrown
+        console.log(err)
+        return res.status(500).json({ Error: 'Internal server error' })
+    }
+    let notes = await Notes.find({ user: req.user.id })
+})
 
 module.exports = router
