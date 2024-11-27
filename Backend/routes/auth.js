@@ -4,10 +4,11 @@ const Users = require('../models/User')
 const router = express.Router();
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+var fetchUser = require('../middleware/fetchuser');
 
 const jwtSecretKey = '56593e3a139c4e5f8b5c1a1e474239e6'
 
-//EndPoint for creating user Using : POST "/api/auth/createuser" no login required
+//EndPoint1: for creating user Using : POST "/api/auth/createuser" no login required
 router.post('/createuser', [
     //validations of user data
     body('name', 'Enter a valid name').trim().isLength({ min: 3 }).escape(),
@@ -60,7 +61,7 @@ router.post('/createuser', [
         }
     })
 
-//EndPoint for user login Using : POST "/api/auth/login" no login required
+//EndPoint2: for user login Using : POST "/api/auth/login" no login required
 router.post('/login',[
     body('username', 'Enter valid Username').trim().isLength({ min: 5 }).escape(),
     body('password', 'Enter valid Password').trim().isLength({ min: 8 }).escape()
@@ -93,6 +94,19 @@ router.post('/login',[
         console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
+})
+
+//EndPoint3:  for fetching user data Using : POST "/api/auth/getuser" login required
+router.post('/getuser', fetchUser,
+    async(req,res)=>{
+        try{
+            userId = req.user.id
+            let user = await Users.findById(userId).select('-password')
+            res.json(user)
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({ Error: 'Internal server error' })
+        }
 })
 
 module.exports = router
