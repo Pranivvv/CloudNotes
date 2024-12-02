@@ -10,5 +10,5 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/notes', require('./routes/notes'))
 
 app.listen(port, ()=>{
-    console.log(`listining at URL http://localhost:${port}` )
+    console.log(`CloudNotes Backend listining at URL http://localhost:${port}` )
 })

@@ -4,7 +4,7 @@ import NoteContext from "../context/notes/NoteContext"
 const About = () => {
     const a = useContext(NoteContext)
     return (
-        <div>
+        <div className='container' style={{marginTop:'70px'}}>
             about {}
         </div>
     )
