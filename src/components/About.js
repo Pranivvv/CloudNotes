@@ -5,7 +5,7 @@ const About = () => {
     const a = useContext(NoteContext)
     return (
         <div>
-            about {a.name}
+            about {}
         </div>
     )
 }

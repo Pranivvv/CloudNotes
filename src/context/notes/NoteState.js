@@ -2,11 +2,8 @@ import { getValue } from "@testing-library/user-event/dist/utils";
 import NoteContext from "./NoteContext";
 
 const NoteState = (props) => {
-    const state = {
-        name:'praniv'
-    }
     return (
-        <NoteContext.Provider value={state}>
+        <NoteContext.Provider value={{}}>
             {props.children}
         </NoteContext.Provider>
     )
