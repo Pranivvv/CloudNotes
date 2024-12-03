@@ -7,6 +7,7 @@ const Notes = () => {
     const { notes, fetchNotes } = context
     useEffect(()=>{
         fetchNotes()
+        // eslint-disable-next-line
     },[])
 
     return (

@@ -43,10 +43,9 @@ const NoteState = (props) => {
         });
         
         const response = await fetch(myRequest);
-        console.log(response)
-        if (response.ok) {
-            fetchNotes()
-        }
+        const fetchedNotes= await response.json()
+        // console.log(fetchedNotes)
+        setNotes(notes.concat(fetchedNotes))
     }
 
     //Function to Delete notes
@@ -63,10 +62,10 @@ const NoteState = (props) => {
         });
         
         const response = await fetch(myRequest);
-        console.log(response)
-        if (response.ok) {
-            fetchNotes()
-        }
+        const fetchedNotes= await response.json()
+        // console.log(fetchedNotes)
+        const newNotes = notes.filter((note) => note._id !== id);
+        setNotes(newNotes);
     }
 
     //Function to edit notes

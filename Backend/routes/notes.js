@@ -75,7 +75,6 @@ router.put('/updatenote/:id', fetchUser, async (req, res) => {
         // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
-    let notes = await Notes.find({ user: req.user.id })
 })
 
 //EndPoint4: Deletete perticular note using note id Using : DELETE "/api/notes/deletenote" login required
@@ -97,7 +96,6 @@ router.delete('/deletenote/:id', fetchUser, async (req, res) => {
         // console.log(err)
         return res.status(500).json({ Error: 'Internal server error' })
     }
-    let notes = await Notes.find({ user: req.user.id })
 })
 
 module.exports = router
