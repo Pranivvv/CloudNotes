@@ -26,6 +26,10 @@ const AddNotes = () => {
                     <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
                     <input type="text" className="form-control" id="description" name="description" onChange={onChange}/>
                 </div>
+                <div className="mb-3">
+                    <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
+                    <input type="text" className="form-control" id="tag" name="tag" onChange={onChange}/>
+                </div>
                 {/* <div className="mb-3 form-check">
                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                     <label className="form-check-label" for="exampleCheck1">Check me out</label>
