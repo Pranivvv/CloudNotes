@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import NoteContext from "../context/notes/NoteContext"
 
 const AddNotes = () => {
+    
     const context = useContext(NoteContext)
     const { addNote } = context
     
@@ -23,12 +24,12 @@ const AddNotes = () => {
                     <input type="text" className="form-control" id="title" name='title' aria-describedby="emailHelp" onChange={onChange}/>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="description" name="description" onChange={onChange}/>
+                    <label htmlFor="exampleInputPassword1" className="form-label">Tag</label>
+                    <input type="text" className="form-control" id="tag" name="tag" onChange={onChange}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="tag" name="tag" onChange={onChange}/>
+                    <input type="text" className="form-control" id="description" name="description" onChange={onChange}/>
                 </div>
                 {/* <div className="mb-3 form-check">
                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
