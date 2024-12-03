@@ -8,7 +8,7 @@ const Notes = () => {
     return (
         <div className='row'>
             {notes.map((note) => {
-                return (<NoteItem key={note._id} title={note.title} description={note.description} />)
+                return (<NoteItem key={note._id} note={note} />)
             })}
         </div>
     )

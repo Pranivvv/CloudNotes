@@ -1,4 +1,3 @@
-import { getValue } from "@testing-library/user-event/dist/utils";
 import NoteContext from "./NoteContext";
 import { useState } from "react";
 
@@ -77,12 +76,16 @@ const NoteState = (props) => {
     }
 
     //Function to Delete notes
-
+    const deleteNote = (id)=>{
+        //todo: add api call
+        const updatedNotes = notes.filter((note) => note._id !== id);
+        setNotes(updatedNotes); // Update the state
+    }
 
     //Function to edit notes
 
     return (
-        <NoteContext.Provider value={{notes, addNote}}>
+        <NoteContext.Provider value={{notes, addNote, deleteNote}}>
             {props.children}
         </NoteContext.Provider>
     )

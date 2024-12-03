@@ -30,7 +30,7 @@ const AddNotes = () => {
                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                     <label className="form-check-label" for="exampleCheck1">Check me out</label>
                 </div> */}
-                <button type="submit" className="btn btn-primary" onClick={handalClick}>Submit</button>
+                <button type="submit" className="btn btn-primary" onClick={handalClick}>Add Note</button>
             </form>
         </div>
     )
