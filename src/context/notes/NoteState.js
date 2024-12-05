@@ -62,18 +62,20 @@ const NoteState = (props) => {
         });
         
         const response = await fetch(myRequest);
-        const fetchedNotes= await response.json()
+        // const fetchedNotes= await response.json()
         // console.log(fetchedNotes)
-        const newNotes = notes.filter((note) => note._id !== id);
-        setNotes(newNotes);
+        if (response){
+            const newNotes = notes.filter((note) => note._id !== id);
+            setNotes(newNotes);
+        }
     }
 
     //Function to edit notes
-    const updateNote = (id, title, description, tag) => {
+    const updateNote = (currNote) => {
         //todo: add api call
-
+        console.log(currNote._id)
         const newNotes = notes.map((note) =>
-            note._id === id ? { ...note, title, description, tag } : note
+            note._id === currNote._id ? { ...note, title:currNote.title, description:currNote.description, tag:currNote.tag } : note
         )
 
         setNotes(newNotes)
