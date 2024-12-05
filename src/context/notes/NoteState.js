@@ -71,14 +71,33 @@ const NoteState = (props) => {
     }
 
     //Function to edit notes
-    const updateNote = (currNote) => {
+    const updateNote = async(currNote) => {
         //todo: add api call
-        console.log(currNote._id)
-        const newNotes = notes.map((note) =>
-            note._id === currNote._id ? { ...note, title:currNote.title, description:currNote.description, tag:currNote.tag } : note
-        )
+        const url = host+'notes/updatenote/'+currNote._id
 
-        setNotes(newNotes)
+        const myRequest = new Request(url, {
+            method: "PUT",
+            body: JSON.stringify({ 
+                title: currNote.title, 
+                description: currNote.description, 
+                tag: currNote.tag 
+            }),
+            headers:{
+                "Content-Type": "application/json",
+                "auth-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjc0NjZmMzQ3MDg5M2FmYmE5OWY5MmM2In0sImlhdCI6MTczMjY3NTQ2MH0.eDUz9eIFndHUvRCP42rnyiWIOMlufoOMK7T9tbM9ZCk"
+            }
+        });
+
+        const response = await fetch(myRequest);
+
+        if (response){
+            // console.log(currNote._id)
+            const newNotes = notes.map((note) =>
+                note._id === currNote._id ? { ...note, title:currNote.title, description:currNote.description, tag:currNote.tag } : note
+            )
+
+            setNotes(newNotes)
+        }
     }
 
     return (

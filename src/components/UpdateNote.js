@@ -42,7 +42,7 @@ const UpdateNote = (props) => {
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleUpdate}>Update</button>
+                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={handleUpdate}>Update</button>
                 </div>
             </div>
         </div>
