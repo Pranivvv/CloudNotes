@@ -27,6 +27,7 @@ const Notes = () => {
                 <UpdateNote unote={unote} setuNote={setuNote} />
             </div>
             <div className='row'>
+                {notes.length===0 && <h5>no notes available</h5>}
                 {notes.map((note) => {
                     // console.log(note)
                     return (<NoteItem key={note._id} note={note} togelUpdateNote={togelUpdateNote} />)

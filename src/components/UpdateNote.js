@@ -28,7 +28,7 @@ const UpdateNote = (props) => {
                     <form>
                         <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">New Title</label>
-                            <input type="text" className="form-control" id="u-title" name='title' aria-describedby="emailHelp" onChange={onChange} value={title} />
+                            <input type="text" className="form-control" id="u-title" name='title' aria-describedby="emailHelp" onChange={onChange} value={title} minLength={3} required/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">New Tag</label>
@@ -36,13 +36,13 @@ const UpdateNote = (props) => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">New Description</label>
-                            <input type="text" className="form-control" id="u-description" name="description" onChange={onChange} value={description} />
+                            <input type="text" className="form-control" id="u-description" name="description" onChange={onChange} value={description} minLength={8} required />
                         </div>
                     </form>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={handleUpdate}>Update</button>
+                    <button disabled={title.length<3 || description.length<8} type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={handleUpdate}>Update</button>
                 </div>
             </div>
         </div>
