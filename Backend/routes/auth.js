@@ -16,11 +16,12 @@ router.post('/createuser', [
     body('email', 'Enter a valid Email').isEmail().escape(),
     body('password', 'Password should be atleast 8 characters').isLength({ min: 8 }).escape(),
 ],  async (req, res) => {
+        let success = false
         const errors = validationResult(req);
         // console.log(obj)
         //check for validation errors if there are errors send responce as bad request 400 with errors 
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() })
+            return res.status(400).json({ success, errors: errors.array() })
         }
         //added try-catch bolck to find unknown errors
         try {
@@ -28,13 +29,13 @@ router.post('/createuser', [
             let duplicateEmail = await Users.findOne({ email: req.body.email })
             let duplicateUsername = await Users.findOne({ username: req.body.username })
             if (duplicateEmail && duplicateUsername) {
-                return res.status(400).json({ error: 'User with this Username and Email already exists'})
+                return res.status(400).json({ success, error: 'User with this Username and Email already exists'})
             }
             if (duplicateEmail) {
-                return res.status(400).json({ error: 'User with this email already exists' })
+                return res.status(400).json({ success, error: 'User with this email already exists' })
             }
             if (duplicateUsername) {
-                return res.status(400).json({ error: 'User with this username already exists' })
+                return res.status(400).json({ success, error: 'User with this username already exists' })
             }
 
             // Save user data to database
@@ -53,10 +54,11 @@ router.post('/createuser', [
             }
             // console.log(data)
             var token = jwt.sign(data, jwtSecretKey);
-            res.json({token})
+            success = true
+            res.json({success, token})
         } catch (err) {
             // console.log(err)
-            return res.status(500).json({ Error: 'Internal server error' })
+            return res.status(500).json({ success, Error: 'Internal server error' })
         }
     })
 
@@ -65,20 +67,21 @@ router.post('/login',[
     body('username', 'Enter valid Username').trim().isLength({ min: 5 }).escape(),
     body('password', 'Enter valid Password').trim().isLength({ min: 8 }).escape()
 ],  async ( req, res) =>{
+    let success=false
     // validate username and password if they are to short
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.status(400).json({ errors: errors.array() })
+        return res.status(400).json({ success, errors: errors.array() })
     }
     const { username, password } = req.body
     try {
         let user = await Users.findOne({ username })
         if(!user){
-            return res.status(400).json({ error: 'Enter valid credentials'})
+            return res.status(400).json({ success, error: 'Enter valid credentials'})
         }
         const comparePassword = await bcrypt.compare(password, user.password)
         if(!comparePassword){
-            return res.status(400).json({error: 'Enter valid credentials'})
+            return res.status(400).json({ success, error: 'Enter valid credentials'})
         }
         const data = {
             user:{
@@ -87,24 +90,27 @@ router.post('/login',[
         }
         // console.log(data)
         var token = jwt.sign(data, jwtSecretKey);
-        res.json({token})
+        success=true
+        res.json({success, token})
 
     } catch (err) {
         // console.log(err)
-        return res.status(500).json({ Error: 'Internal server error' })
+        return res.status(500).json({ success, Error: 'Internal server error' })
     }
 })
 
 //EndPoint3:  for fetching user data Using : POST "/api/auth/getuser" login required
 router.post('/getuser', fetchUser,
     async(req,res)=>{
+        let success=false
         try{
             userId = req.user.id
             let user = await Users.findById(userId).select('-password')
-            res.json(user)
+            success=true
+            res.json({ success, user })
         } catch (err) {
             // console.log(err)
-            return res.status(500).json({ Error: 'Internal server error' })
+            return res.status(500).json({ success, Error: 'Internal server error' })
         }
 })
 
