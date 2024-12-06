@@ -1,19 +1,19 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Notes from './Notes'
 import AddNotes from './AddNotes'
 
-const Home = () => {
+const Home = (props) => {
 
     return (
-        <div className='container' style={{ marginTop: '70px' }}>
+        <div className='container' >
             <div className="container my-3">
                 <h2>Add New Notes</h2>
-                <AddNotes />
+                <AddNotes myAlert={props.myAlert}/>
             </div>
 
             <div className="container">
                 <h2>Your Notes</h2>
-                <Notes />
+                <Notes myAlert={props.myAlert}/>
             </div>
         </div>
     )
