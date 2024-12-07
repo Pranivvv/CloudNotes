@@ -3,7 +3,7 @@ import NoteContext from "../context/notes/NoteContext"
 
 
 const UpdateNote = (props) => {
-    const { title='', description='', tag='' } = props.unote
+    const { title = '', description = '', tag = '' } = props.unote
     const onChange = (e) => {
         props.setuNote({ ...props.unote, [e.target.name]: e.target.value })
     }
@@ -12,9 +12,10 @@ const UpdateNote = (props) => {
     const { updateNote } = context
 
     const handleUpdate = () => {
-    // Call the context `updateNote` function to update the note
-    updateNote(props.unote);
-  };
+        // Call the context `updateNote` function to update the note
+        updateNote(props.unote);
+        props.myAlert('Updated note', 'Success')
+    };
 
     return (
         <div className="modal-dialog">
@@ -28,7 +29,7 @@ const UpdateNote = (props) => {
                     <form>
                         <div className="mb-3">
                             <label htmlFor="exampleInputEmail1" className="form-label">New Title</label>
-                            <input type="text" className="form-control" id="u-title" name='title' aria-describedby="emailHelp" onChange={onChange} value={title} minLength={3} required/>
+                            <input type="text" className="form-control" id="u-title" name='title' aria-describedby="emailHelp" onChange={onChange} value={title} minLength={3} required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">New Tag</label>
@@ -42,7 +43,7 @@ const UpdateNote = (props) => {
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button disabled={title.length<3 || description.length<8} type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={handleUpdate}>Update</button>
+                    <button disabled={title.length < 3 || description.length < 8} type="button" className="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onClick={handleUpdate}>Update</button>
                 </div>
             </div>
         </div>

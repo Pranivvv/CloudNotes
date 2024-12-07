@@ -3,7 +3,7 @@ import NoteContext from "../context/notes/NoteContext"
 import NoteItem from './NoteItem'
 import UpdateNote from './UpdateNote'
 
-const Notes = () => {
+const Notes = (props) => {
     const context = useContext(NoteContext)
     const { notes, fetchNotes } = context
     const ref = useRef(null)
@@ -24,13 +24,13 @@ const Notes = () => {
     return (
         <>
             <div className="modal fade" ref={ref} id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <UpdateNote unote={unote} setuNote={setuNote} />
+                <UpdateNote unote={unote} setuNote={setuNote} myAlert={props.myAlert}/>
             </div>
             <div className='row'>
                 {notes.length===0 && <h5>no notes available</h5>}
                 {notes.map((note) => {
                     // console.log(note)
-                    return (<NoteItem key={note._id} note={note} togelUpdateNote={togelUpdateNote} />)
+                    return (<NoteItem key={note._id} note={note} togelUpdateNote={togelUpdateNote} myAlert={props.myAlert}/>)
                 })}
             </div>
         </>

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import NoteContext from "../context/notes/NoteContext"
 
-const AddNotes = () => {
+const AddNotes = (props) => {
     const context = useContext(NoteContext)
     const { addNote } = context
     
@@ -15,6 +15,7 @@ const AddNotes = () => {
         addNote(note.title, note.description, note.tag)
         // Reset form fields after adding note
         setNote({ title: '', description: '', tag: '' });
+        props.myAlert('Added new note', 'Success')
     }
 
     return (
