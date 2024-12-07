@@ -1,7 +1,12 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+    const navigate = useNavigate()
+    const onLogout = ()=>{
+        localStorage.removeItem('token')
+        navigate('/login')
+    }
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
@@ -18,10 +23,15 @@ const Navbar = () => {
                             <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to="/about">About</NavLink>
                         </li>
                     </ul>
-                    <form className="d-flex" role="search">
+                    
+                    {!localStorage.getItem('token') ? <form className="d-flex" role="search">
                         <Link className="btn btn-outline-primary mx-2" to="/login" role="button">Login</Link>
                         <Link className="btn btn-outline-primary mx-2" to="/signup" role="button">Signup</Link>
-                    </form>
+                    </form> :
+                        <form className="d-flex" role="search">
+                            <Link className="btn btn-outline-primary mx-2" to="/login" role="button" onClick={() => onLogout()}>Logout</Link>
+                        </form>
+                    }
                 </div>
             </div>
         </nav>
